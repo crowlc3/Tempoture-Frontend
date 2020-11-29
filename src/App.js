@@ -1,11 +1,11 @@
-/*import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
 function App() {
   const [initialData, setInitialData] = useState([{}])
 
   useEffect(()=> {
-    fetch('/api').then(
+    fetch('https://backendtempoture.herokuapp.com/api').then(
       response => response.json()
     ).then(data => setInitialData(data))
   }, []);
@@ -17,7 +17,9 @@ function App() {
 }
 
 export default App;
-*/
+
+
+/*
 import logo from './logo.svg';
 import './App.css';
 
@@ -43,3 +45,4 @@ function App() {
 }
 
 export default App;
+*/
