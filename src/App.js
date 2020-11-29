@@ -5,7 +5,7 @@ function App() {
   const [initialData, setInitialData] = useState([{}])
 
   useEffect(()=> {
-    fetch('https://backendtempoture.herokuapp.com/api').then(
+    fetch('https://cors-anywhere.herokuapp.com/backendtempoture.herokuapp.com/api').then(
       response => response.json()
     ).then(data => setInitialData(data))
   }, []);
