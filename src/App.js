@@ -19,6 +19,7 @@
 // export default App;
 import React, { Component } from 'react';
 import 'reset-css/reset.css';
+import Navbar from "./components/Navbar/Navbar";
 import './App.css';
 import queryString from 'query-string';
 
@@ -42,7 +43,6 @@ const loginButtonSection = {
   top: '607px',
   justifyContent: 'center',
   alignItems: 'center',
-  color:"white", 
   'font_family': 'Arial',
   'font_style': 'normal',
   'font-weight': 'bold',
@@ -220,6 +220,21 @@ class App extends Component {
         }) : []
     return (
       <div className="App">
+        <Navbar />
+        <p style={{
+          ...wordStyles,
+          position: 'absolute',
+          width: '961px',
+          height: '218px',
+          left: '500px',
+          top: '297px',}}> Music</p>
+          <p style={{
+          ...wordStyles, 
+          position: 'absolute',
+          width: '961px',
+          height: '218px',
+          left: '500px',
+          top: '400px',}}>for your Weather</p>
         {this.state.user ?
           <div>
             <h1 style={{
