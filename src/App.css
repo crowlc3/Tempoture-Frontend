@@ -1,5 +1,5 @@
 html, body {
-  background-image:url("Weather_Background.jpg");
+  background:linear-gradient(90deg, rgb(84, 67, 105) 20%, rgb(84, 85, 131) 100%);
 }
 .App {
   text-align: center;

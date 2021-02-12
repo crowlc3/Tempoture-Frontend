@@ -22,6 +22,7 @@ import 'reset-css/reset.css';
 import Navbar from "./components/Navbar/Navbar";
 import './App.css';
 import queryString from 'query-string';
+import { BrowserRouter as Router} from 'react-router-dom';
 
 let defaultStyle = {
   color: '#fff',
@@ -220,6 +221,7 @@ class App extends Component {
         }) : []
     return (
       <div className="App">
+        <Router>
         <Navbar />
         <p style={{
           ...wordStyles,
@@ -260,6 +262,7 @@ class App extends Component {
           }
           style={{...loginButtonSection}}>CONNECT SPOTIFY</button>
         }
+        </Router>
       </div>
     );
   }
