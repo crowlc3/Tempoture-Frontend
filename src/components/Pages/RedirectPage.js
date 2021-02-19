@@ -27,6 +27,19 @@ const RedirectPage = () => {
       console.log("token", token);
     }, []);
 
+    //Trying to send API key to the backend
+    fetch('http://localhost:5000/data', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        authKey: token,
+        zipcode: 'Still waiting to get from API'
+      })
+    })
+
   /* change this to a ternerary to see if they have a token*/  
  return <div><Navbar /><h1 className="main-heading"> Redirect Page </h1> {token}</div>;
 };
