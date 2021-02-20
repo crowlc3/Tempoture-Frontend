@@ -30,7 +30,7 @@ const RedirectPage = () => {
     //Trying to send API key to the backend
     fetch('http://localhost:5000/data', {
       method: 'POST',
-      mode: 'cors',
+      cache: 'no-cache',
       headers: {
         'Content-Type': 'application/json'
       },
