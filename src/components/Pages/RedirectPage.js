@@ -28,7 +28,7 @@ const RedirectPage = () => {
     }, []);
 
     //Trying to send API key to the backend
-    fetch('http://localhost:5000/data', {
+    fetch('http://127.0.0.1:5000/data', {
       method: 'POST',
       cache: 'no-cache',
       headers: {
