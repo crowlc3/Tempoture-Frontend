@@ -28,9 +28,9 @@ const RedirectPage = () => {
     }, []);
 
     //Trying to send API key to the backend
-    fetch('http://127.0.0.1:5000/data', {
+    fetch('https://backendtempoture.herokuapp.com/data', {
       method: 'POST',
-      cache: 'no-cache',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
