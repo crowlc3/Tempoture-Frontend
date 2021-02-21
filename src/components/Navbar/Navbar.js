@@ -11,6 +11,13 @@ function Navbar() {
 
   const showSidebar = () => setSidebar(!sidebar);
 
+
+  if (sidebar) {
+    document.documentElement.style.setProperty('--pad','250px');
+  } else {
+    document.documentElement.style.setProperty('--pad','0px');
+  }
+
   return (
     <>
       <IconContext.Provider value={{ color: '#e4cdc3' }}>

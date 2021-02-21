@@ -1,4 +1,8 @@
-* {
+:root {
+  --pad: 0px;
+}* 
+
+{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,7 +10,7 @@
   
   body {
     margin: 0;
-    padding: 0;
+    padding-left: var(--pad);
     box-sizing: border-box;
     background: #f3f4f6;
     font-family: 'Montserrat', -apple-system, system-ui, BlinkMacSystemFont,
