@@ -26,9 +26,42 @@ const RedirectPage =  () => {
   
       console.log("token", token);
     }, []);
+        
+    var lat = '';
+    var long = '';
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+    
+    function showPosition(position) {
+      lat = (position.coords.latitude).toString();
+      long = (position.coords.longitude).toString();
+      //console.log(lat);
+      //console.log(long);
+    }
+
+    getLocation();
+    console.log(lat);
+    console.log(long);
+
+    var zipcode = '';
+    fetch('https://api.tomtom.com/search/2/reverseGeocode/' + lat + ',' + long + '.JSON?key=' + (process.env.REACT_APP_GEO_KEY).toString())
+      .then(response => {
+        return response.json();
+    })
+    .then(data => {
+      zipcode = data.addresses[0].address.postalCode;
+      console.log(data);
+
     var formData = new FormData();
     formData.append('authKey',token);
-    formData.append('zipcode','Still waiting to get from API');
+    formData.append('zipcode',zipcode);
+    
     //Trying to send API key to the backend
     // When testing on localhost change to localhost:5000/data
     fetch('https://backendtempoture.herokuapp.com/data', {
@@ -36,6 +69,8 @@ const RedirectPage =  () => {
       body: formData
     }).then(response => response.json())
     .then(data => console.log(data));
+  });
+  
   /* change this to a ternerary to see if they have a token*/  
  return <div><Navbar /><h1 className="main-heading"> Redirect Page </h1> {token}</div>;
 };
