@@ -1,78 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
+import {getTokenFromUrl, getZipcodeFromApi } from "./PageFunctions/getUserData"
+import { useEffectAllDepsChange } from "./PageFunctions/UseEffectMulti"
 
-export const getTokenFromUrl = () => {
-    return window.location.hash
-      .substring(1)
-      .split("&")
-      .reduce((initial, item) => {
-        let parts = item.split("=");
-        initial[parts[0]] = decodeURIComponent(parts[1]);
-        return initial;
-      }, {});
-  };
+function sendData( authKey, zipcode ){
+  var formData = new FormData();
+  formData.append('authKey', authKey);
+  formData.append('zipcode', zipcode);
+
+  fetch('https://backendtempoture.herokuapp.com/data', {
+    method: 'POST',
+    body: formData
+  }).then(response => response.json())
+  .then(data => console.log(data));
+}
 
 const RedirectPage =  () => {
-   const [token, setToken] = useState();
+  useEffect(() => {
+    const hash = getTokenFromUrl();
+    window.location.hash = "";
+    const _token = hash.access_token;
 
-    useEffect(() => {
-      const hash = getTokenFromUrl();
-      window.location.hash = "";
-      const _token = hash.access_token;
-  
-      if (_token) {
-        setToken(_token);
-      }
-  
-      console.log("token", token);
-    }, []);
-        
-    var lat = '';
-    var long = '';
+    if(_token){
+      localStorage.setItem('apiToken', _token);
+    } else if(localStorage.getItem('apiToken') !== '' && localStorage.getItem('apiToken') !== undefined){
+      console.log('apiToken already received');
+    } else { console.log("Unable to get Spotify Token"); }
 
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      } else { 
-        console.log("Geolocation is not supported by this browser.");
-      }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        localStorage.setItem( 'latitude' , (position.coords.latitude).toString());
+        localStorage.setItem('longitude' , (position.coords.longitude).toString());
+      });
+    } else { console.log("Geolocation is not supported by this browser."); }
+
+  }, []);
+
+  useEffectAllDepsChange(() =>{
+    if( localStorage.getItem('latitude') !== '' && localStorage.getItem('latitude') !== undefined &&
+        localStorage.getItem('longitude') !== '' && localStorage.getItem('longitude') !== undefined  ){
+        getZipcodeFromApi( localStorage.getItem('latitude'), localStorage.getItem('longitude')).then(data => {
+          localStorage.setItem('zipcode', data.addresses[0].address.postalCode ); 
+        });
     }
-    
-    function showPosition(position) {
-      lat = (position.coords.latitude).toString();
-      long = (position.coords.longitude).toString();
-      //console.log(lat);
-      //console.log(long);
-    }
+  }, [localStorage.getItem('latitude'), localStorage.getItem('longitude') ]);
 
-    getLocation();
-    console.log(lat);
-    console.log(long);
+  useEffectAllDepsChange(() =>{
+    if( localStorage.getItem('apiToken') !== '' && localStorage.getItem('apiToken') !== undefined &&
+        localStorage.getItem('zipcode') !== '' && localStorage.getItem('zipcode') !== undefined  ){
+        sendData(localStorage.getItem('apiToken'), localStorage.getItem('zipcode') )
+      }
+    }, [ localStorage.getItem('apiToken'),  localStorage.getItem('zipcode')]);
 
-    var zipcode = '';
-    fetch('https://api.tomtom.com/search/2/reverseGeocode/' + lat + ',' + long + '.JSON?key=' + (process.env.REACT_APP_GEO_KEY).toString())
-      .then(response => {
-        return response.json();
-    })
-    .then(data => {
-      zipcode = data.addresses[0].address.postalCode;
-      console.log(data);
-
-    var formData = new FormData();
-    formData.append('authKey',token);
-    formData.append('zipcode',zipcode);
-    
-    //Trying to send API key to the backend
-    // When testing on localhost change to localhost:5000/data
-    fetch('https://backendtempoture.herokuapp.com/data', {
-      method: 'POST',
-      body: formData
-    }).then(response => response.json())
-    .then(data => console.log(data));
-  });
-  
-  /* change this to a ternerary to see if they have a token*/  
- return <div><Navbar /><h1 className="main-heading"> Redirect Page </h1> {token}</div>;
+  /* change this to a ternerary to see if they have a token*/
+  return <div><Navbar /><h1 className="main-heading"> Redirect Page </h1></div>;
 };
 
 export default RedirectPage;
