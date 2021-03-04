@@ -1,19 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import {getAddress} from '../location.js';
 
 require('dotenv').config()
 
-export const getTokenFromUrl = () => {
-    return window.location.hash
-      .substring(1)
-      .split("&")
-      .reduce((initial, item) => {
-        let parts = item.split("=");
-        initial[parts[0]] = decodeURIComponent(parts[1]);
-        return initial;
-      }, {});
-  };
+function sendData( authKey, zipcode, country, refresh_token, last_refreshed){
+  var formData = new FormData();
+  formData.append('access_token', authKey);
+  formData.append('refresh_token',refresh_token);
+  formData.append('last_refresh',last_refreshed);
+  formData.append('country',country);
+  formData.append('zip_code', zipcode);
+
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === ""){
+    fetch('http://127.0.0.1:5000/store_user', {
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+    .then(data => console.log(data));
+  }
+  else{
+    fetch('https://backendtempoture.herokuapp.com/store_user', { //// sorry caplocks, just commit it
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+    .then(data => console.log(data));
+  }
+}
 
 export const getCodeFromUrl = () => {
   return window.location.search.substring(1).split("code=")[1];
@@ -36,20 +49,7 @@ const RedirectPage =  () => {
             navigator.geolocation.getCurrentPosition(
              function success(position) {
                getAddress(position.coords.latitude,position.coords.longitude).then((adress) => {
-                  //Trying to send API key to the backend
-                  // When testing on localhost change to localhost:5000/data
-                  var formData = new FormData();
-                  formData.append('access_token',_token);
-                  formData.append('refresh_token',refresh_token);
-                  formData.append('last_refresh',last_refreshed);
-                  formData.append('country',adress[0]);
-                  formData.append('zip_code',adress[1]);
-                  
-                  fetch('http://127.0.0.1:5000/store_user', {
-                    method: 'POST',
-                    body: formData
-                  }).then(response => response.json())
-                  .then(data => console.log(data));
+                  sendData( _token, adress[1], adress[0],refresh_token);
                })
              },
             function error(error_message) {
@@ -90,25 +90,14 @@ const RedirectPage =  () => {
           if (_token) {
             setToken(_token);
           }
-          if ("geolocation" in navigator) {
+          if ("geolocation" in navigator) { // This is duplicated because of the then , in the fetch
             // check if geolocation is supported/enabled on current browser
             navigator.geolocation.getCurrentPosition(
             function success(position) {
               getAddress(position.coords.latitude,position.coords.longitude).then((adress) => {
                   //Trying to send API key to the backend
                   // When testing on localhost change to localhost:5000/data
-                  var formData = new FormData();
-                  formData.append('access_token',_token);
-                  formData.append('refresh_token',refresh_token);
-                  formData.append('last_refresh',last_refreshed)
-                  formData.append('country',adress[0])
-                  formData.append('zip_code',adress[1]);
-                  
-                  fetch('http://127.0.0.1:5000/store_user', {
-                    method: 'POST',
-                    body: formData
-                  }).then(response => response.json())
-                  .then(data => console.log(data));
+                  sendData( _token, adress[1], adress[0],refresh_token);
               })
             },
             function error(error_message) {
@@ -124,7 +113,6 @@ const RedirectPage =  () => {
         });
       }
     }, []);
-
   /* change this to a ternerary to see if they have a token*/  
  return <div><Navbar /><h1 className="main-heading"> Redirect Page </h1> {token}</div>;
 };

@@ -16,7 +16,7 @@ const handleLogin = () => {
   window.location = `${process.env.REACT_APP_AUTHORIZE_URL}?client_id=${
     process.env.REACT_APP_CLIENT_ID }&redirect_uri=${
       process.env.REACT_APP_REDIRECT_URL}&scope=${
-        scopes.join("%20")}&response_type=token&show_dialog=true`;
+        scopes.join("%20")}&response_type=code&show_dialog=true`;
 };
 
 const LogInPage = (props) => {

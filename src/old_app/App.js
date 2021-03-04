@@ -17,9 +17,10 @@
 // }
 
 // export default App;
+/*
 import React, { Component } from 'react';
 import 'reset-css/reset.css';
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import './App.css';
 import queryString from 'query-string';
 import { BrowserRouter as Router} from 'react-router-dom';
@@ -269,3 +270,4 @@ class App extends Component {
 }
 
 export default App;
+*/
