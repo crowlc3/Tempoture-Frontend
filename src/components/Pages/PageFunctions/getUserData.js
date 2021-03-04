@@ -1,22 +1,17 @@
+export const getCodeFromUrl = () => {
+  return window.location.search.substring(1).split("code=")[1];
+};
 
-export const getTokenFromUrl = () => {
-    return window.location.hash
-      .substring(1)
-      .split("&")
-      .reduce((initial, item) => {
-        let parts = item.split("=");
-        initial[parts[0]] = decodeURIComponent(parts[1]);
-        return initial;
-      }, {});
-  };
-
-export async function getZipcodeFromApi(latitude, longitude){
-  let response = await fetch( 'https://api.tomtom.com/search/2/reverseGeocode/' 
-                              + latitude + ',' + longitude  + '.JSON?key=' + 
-                              (process.env.REACT_APP_GEO_KEY).toString()
-                            );
-                              
-  let data = await response.json();
-
-  return data
+export const getAddress = async (latitude,longitude) => {
+    try {
+        let response =  await fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=' + process.env.REACT_APP_GOOGLE_MAP_KEY + '&location_type=APPROXIMATE&result_type=postal_code')
+        let c_response =  await fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=' + process.env.REACT_APP_GOOGLE_MAP_KEY + '&location_type=APPROXIMATE&result_type=country')
+        let rJson = await response.json();
+        let cJson = await c_response.json();
+        return [cJson.results[0].address_components[0].short_name,rJson.results[0].address_components[0].long_name];
+    }
+    catch(error){
+        console.log("Error with Address: " + error);
+        return []
+    }
 }
