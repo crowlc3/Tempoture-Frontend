@@ -32,7 +32,7 @@ const RedirectPage =  () => {
    const [token, setToken] = useState();
     useEffect(() => {
       const code = getCodeFromUrl();
-      if(localStorage.getItem('access_token') !== null)
+      if(localStorage.getItem('access_token') !== null && localStorage.getItem('access_token') !== 'undefined' )
       {
           const _token = localStorage.getItem('access_token');
           const refresh_token = localStorage.getItem('refresh_token');
@@ -45,12 +45,13 @@ const RedirectPage =  () => {
             navigator.geolocation.getCurrentPosition(
              function success(position) {
                getAddress(position.coords.latitude,position.coords.longitude).then((adress) => {
-                  if(adress !== undefined &&  adress !== '') // This is just in case your missing the env KEY, or you can't (for whatever reason), get the adress from LONG/LAT(Not regarding getting the actual coordinates)
+                  if(adress !== undefined  && adress.length > 1 &&  adress !== '') // This is just in case your missing the env KEY, or you can't (for whatever reason), get the adress from LONG/LAT(Not regarding getting the actual coordinates)
                   {
-                    sendData( _token, adress[1], adress[0],refresh_token);
+                    sendData( _token, adress[1], adress[0],refresh_token,last_refreshed);
                   }
                   else
                   {
+                    sendData( _token, 'ZipCode N/A', 'US',refresh_token,last_refreshed);
                     console.log("Couldn't retreive Adress from given lat long cooordinates. Check if you have the REACT_APP_GOOGLE_MAP_KEY Key");
                   } 
                })
@@ -100,12 +101,13 @@ const RedirectPage =  () => {
               getAddress(position.coords.latitude,position.coords.longitude).then((adress) => {
                   //Trying to send API key to the backend
                   // When testing on localhost change to localhost:5000/data
-                  if(adress !== undefined &&  adress !== '') // This is just in case your missing the env KEY, or you can't (for whatever reason), get the adress from LONG/LAT(Not regarding getting the actual coordinates)
+                  if(adress !== undefined  && adress.length > 1 &&  adress !== '') // This is just in case your missing the env KEY, or you can't (for whatever reason), get the adress from LONG/LAT(Not regarding getting the actual coordinates)
                   {
-                    sendData( _token, adress[1], adress[0],refresh_token);
+                    sendData( _token, adress[1], adress[0],refresh_token,last_refreshed);
                   }
                   else
                   {
+                    sendData( _token, 'ZipCode N/A', 'US',refresh_token,last_refreshed);
                     console.log("Couldn't retreive Adress from given lat long cooordinates. Check if you have the REACT_APP_GOOGLE_MAP_KEY Key");
                   } 
               })
