@@ -16,7 +16,7 @@ export const SidebarData = [
   },
   {
     title: 'About Us',
-    path: '/about us',
+    path: '/about',
     icon: <IoIcons.IoIosPeople />,
     cName: 'nav-text'
   },
