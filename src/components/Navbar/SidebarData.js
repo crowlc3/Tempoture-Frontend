@@ -31,5 +31,11 @@ export const SidebarData = [
     path: '/log out',
     icon: <IoIcons.IoIosLogOut />,
     cName: 'nav-text'
+  },
+  {
+    title: 'Artists',
+    path: '/artists',
+    icon: <IoIcons.IoMdMicrophone />,
+    cName: 'nav-text'
   }
 ];

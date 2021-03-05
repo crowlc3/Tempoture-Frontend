@@ -6,6 +6,7 @@ import AboutUsPage from './components/Pages/AboutUsPage';
 import SettingsPage from './components/Pages/SettingsPage';
 import PlaylistsPage from './components/Pages/PlaylistsPage';
 import StatisticsPage from './components/Pages/StatisticsPage';
+import ArtistsPage from './components/Pages/ArtistsPage';
 
 class AppRouter extends React.Component {
   render() {
@@ -17,8 +18,9 @@ class AppRouter extends React.Component {
             <Route path="/redirect" component={RedirectPage} />
             <Route path="/about" component={AboutUsPage} />
             <Route path="/settings" component={SettingsPage} />
-            <Route path="/playlists" component={PlaylistsPage} />          
-            <Route path="/statistics" component={StatisticsPage} />   
+            <Route path="/playlists" component={PlaylistsPage} />
+            <Route path="/statistics" component={StatisticsPage} />
+            <Route path="/artists" component={ArtistsPage} />
           </Switch>
         </div>
       </BrowserRouter>
