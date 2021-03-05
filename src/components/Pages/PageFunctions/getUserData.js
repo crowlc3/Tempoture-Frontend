@@ -15,3 +15,33 @@ export const getAddress = async (latitude,longitude) => {
         return []
     }
 }
+
+export const getSpotToken = async (code) =>{
+    try {
+      let response = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        body: new URLSearchParams({
+          'client_id': process.env.REACT_APP_CLIENT_ID,
+          'client_secret': process.env.REACT_APP_CLIENT_SECRET,
+          'grant_type': 'authorization_code',
+          'code': code,
+          'redirect_uri':process.env.REACT_APP_REDIRECT_URL
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+      });
+      let data;
+      if (response.ok) {
+        data = await response.json();
+      } 
+      else {
+        throw new Error("Couldn't retrieve token check if client_secret/client_id in env file or if the redirect code expired.");
+      }
+      return [data.access_token,data.refresh_token];
+    }
+    catch(error) {
+      console.log("ERROR: " + error);
+      return ['N/A'];
+    }
+}

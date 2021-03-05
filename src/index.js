@@ -6,6 +6,8 @@ import store from './store';
 import AppRouter from './AppRouter';
 import './styles.css';
 
+const url =  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === "") ? 'http://127.0.0.1:5000/' : 'https://backendtempoture.herokuapp.com/';
+
 ReactDOM.render(
   <Refresh>
     <Provider store={store}>
@@ -14,3 +16,4 @@ ReactDOM.render(
   </Refresh>,
   document.getElementById('root')
 );
+export {url};
