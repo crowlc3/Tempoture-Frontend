@@ -22,7 +22,7 @@ class Refresh extends Component {
             });
         });
         let access_token = localStorage.getItem('access_token');
-        if (access_token != null) {
+        if (access_token != null && access_token !== 'undefined') {
             let refresh_token = localStorage.getItem('refresh_token');
             let last_refreshed = localStorage.getItem('last_refreshed');
             var d = new Date();
