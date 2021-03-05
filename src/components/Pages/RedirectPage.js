@@ -4,28 +4,51 @@ import {getAddress,getCodeFromUrl} from "./PageFunctions/getUserData"
 
 require('dotenv').config()
 
-function sendData( authKey, zipcode, country, refresh_token, last_refreshed){
-  var formData = new FormData();
-  formData.append('access_token', authKey);
-  formData.append('refresh_token',refresh_token);
-  formData.append('last_refresh',last_refreshed);
-  formData.append('country',country);
-  formData.append('zip_code', zipcode);
-
-  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === ""){
-    fetch('http://127.0.0.1:5000/store_user', {
+async function sendData( authKey, zipcode, country, refresh_token, last_refreshed){
+    var formData = new FormData();
+    formData.append('access_token', authKey);
+    formData.append('refresh_token',refresh_token);
+    formData.append('last_refresh',last_refreshed);
+    formData.append('country',country);
+    formData.append('zip_code', zipcode);
+    var name = "";
+    if(localStorage.getItem('display_name') === null)
+    {
+      try {
+        let response = await fetch('https://api.spotify.com/v1/me', { 
+          method: 'GET',
+          headers: {'Authorization': `Bearer ${authKey}`}
+        });
+        let data = await response.json();
+        console.log(data);
+        localStorage.setItem('display_name',data.display_name);
+      }
+      catch(error) {
+        console.log("Couldn't retreive display name from acess_token. ERROR: " + error);
+      }
+    }
+    name = localStorage.getItem('display_name');
+    formData.append('display_name',name);
+    var url =  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === "") ? 'http://127.0.0.1:5000/' : 'https://backendtempoture.herokuapp.com/';
+    let response = await fetch(url + 'store_user', { 
       method: 'POST',
       body: formData
-    }).then(response => response.json())
-    .then(data => console.log(data));
-  }
-  else{
-    fetch('https://backendtempoture.herokuapp.com/store_user', { //// sorry caplocks, just commit it
-      method: 'POST',
-      body: formData
-    }).then(response => response.json())
-    .then(data => console.log(data));
-  }
+    });
+    let data =  await response.json();
+    console.log(data);
+    if(data.message === "User already inserted")
+    {
+        var updateFormData = new FormData();
+        updateFormData.append('display_name',name);
+        updateFormData.append('zip_code',zipcode);
+        updateFormData.append('country',country);
+        let updateResp =  await fetch(url + 'update_location', {
+          method: 'POST',
+          body: updateFormData
+        });
+        let updateData = await updateResp.json();
+        console.log(updateData);
+    }
 }
 
 const RedirectPage =  () => {
