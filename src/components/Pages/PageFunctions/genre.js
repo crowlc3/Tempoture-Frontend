@@ -1,15 +1,16 @@
 import React from 'react'
+import Artist from './artist';
 
 const Genre = ({genre, artists}) => {
 
     return (
         <div>
-            <h1>{genre}</h1>
-            {artists.map((obj) => {
-                return <p>
-                    {obj.name}
-                </p>;
-            })}
+            <h7>{genre}</h7>
+            <div className="artistlist">
+                {artists.map((obj) => {
+                    return <Artist {...obj}></Artist>;
+                })} 
+            </div>
         </div>
     );
 

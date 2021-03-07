@@ -12,25 +12,27 @@ const ArtistsPage  = () => {
             [
                 { img: 'test1.png', name: 'person1', },
                 { img: 'test2.png', name: 'person2', },
+                { img: 'test3.png', name: 'person3', },
             ]
         },
         {
             genre: 'Rock',
             artists: 
             [
-                { img: 'test3.png', name: 'person3', },
                 { img: 'test4.png', name: 'person4', },
+                { img: 'test5.png', name: 'person5', },
+                { img: 'test6.png', name: 'person6', },
             ]
         },
     ];
 
     return <div><Navbar/>
-                <h1 className="main-heading">
+                <div>
                     {data.map((obj, index) => {
                         return <Genre key = {obj.genre} {...obj}>
                         </Genre>;
                     })}   
-                </h1>
+                </div>
             </div>;
    };
    
