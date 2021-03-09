@@ -8,6 +8,8 @@ const scopes = [
   "user-read-currently-playing",
   "user-read-recently-played",
   "user-read-playback-state",
+  "playlist-read-private",
+  "playlist-read-collaborative",
   "user-top-read",
   "user-modify-playback-state",
 ];
