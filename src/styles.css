@@ -12,16 +12,30 @@
     margin: 0;
     padding-left: var(--pad);
     box-sizing: border-box;
-    background: #f3f4f6;
+    background: url(pattern.png);
     font-family: 'Montserrat', -apple-system, system-ui, BlinkMacSystemFont,
       'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: 20px;
     letter-spacing: 1px;
     color: #778298;
   }
+
+.container {
+    border-radius: 25px;
+    background: grey;
+    background-position:center;
+    width:700px;
+    height:690px;
+    padding-top: 550px;
+    padding-left: 250px;
+}
   
   .btn {
+    background: #778298;
+    border-radius: 25px;
     letter-spacing: 1px;
+    width: 150px;
+    height: 40px;
   }
   
   .login {
@@ -32,6 +46,10 @@
   }
   
   .login .btn {
+    font-size: 1.2rem;
+  }
+
+  .form-group {
     font-size: 1.2rem;
   }
   

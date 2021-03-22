@@ -24,10 +24,17 @@ const handleLogin = () => {
 const LogInPage = (props) => {
   return (
     <div className="login">
-      <h1 className="main-heading"> Tempoture </h1>
-      <Button variant="info" type="submit" onClick={handleLogin}>
-        Login to spotify {process.env.SPOTIFY_CLIENT_ID}
-      </Button>
+      <div class="container">
+        <Button variant="info" type="submit" onClick={handleLogin}>
+          Login to spotify {process.env.SPOTIFY_CLIENT_ID}
+        </Button>
+        <div className="form-group">
+        <div className="custom-control custom-checkbox">
+          <input type="checkbox" className="custom-control-input" id="customCheck1" />
+          <label className="custom-control-label" htmlFor="customCheck1"><a href="#">Lorem Impsum</a></label>
+        </div>
+        </div>
+      </div>
     </div>
   );
 };
