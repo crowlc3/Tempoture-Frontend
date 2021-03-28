@@ -20,37 +20,93 @@
     color: #778298;
   }
 
-.container {
-    border-radius: 25px;
-    background: grey;
-    background-position:center;
-    width:700px;
-    height:690px;
-    padding-top: 550px;
-    padding-left: 250px;
-}
-  
-  .btn {
-    background: #778298;
-    border-radius: 25px;
-    letter-spacing: 1px;
-    width: 150px;
-    height: 40px;
-  }
-  
   .login {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  
-  .login .btn {
-    font-size: 1.2rem;
+
+  .container {
+      border-radius: 25px;
+      background: #2f2f2f;
+      display: flex;
+      flex-direction: column;
+      background-position:center;
+      width:420px;
+      height:635px;
+      justify-content: center;
+      align-items: center;
+      padding-top: 20px;
+      font-family: JasmineUPC;
   }
 
-  .form-group {
+  .RCOS {
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+
+  .Test {
+    color: #e63f3f;
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+
+  .Spotify {
+    color: Black;
+    font-family: JasmineUPC;
+    padding-top: 10px;
+    font-weight: bolder;
+  }
+
+  .Version {
+    padding-top: 70px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding-bottom: 10px;
+  }
+
+  .What {
+    padding-top: 55px;
+    color: white;
+    font: JasmineUPC;
+    font-size: 1.4rem;
+  }
+
+  .Agree {
+    padding-top: 15px;
+    color: white;
+    font-size: .75rem;
+    text-align: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-family: JasmineUPC;
+    padding-bottom: 5px;
+  }
+  
+  .btn {
+    background: #79a3f8;
+    letter-spacing: 1px;
+    width: 420px;
+    height: 60px;
+    border: none;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    font-weight: bold;
+  }
+  
+  .login .btn {
+    font-size: 1.4rem;
+    font-family: JasmineUPC;
+    color: white;
+  }
+
+  .Checkbox {
     font-size: 1.2rem;
+    padding-bottom: 20px;
+    color: white;
   }
   
   .main {
